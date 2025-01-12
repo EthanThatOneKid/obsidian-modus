@@ -8,6 +8,7 @@ This repository was generated with the command `npx @hypermode/modus-cli new` wi
 
 - Clone your repository to a local development folder.
 - Install [Node.js](https://nodejs.org/), then run `npm i` in the command line under your repository folder.
+- Run `npm run hypermode` to log in to the Hypermode platform.
 - Run `npm run dev` to compile run the program in watch mode.
 - Format your code with `npm run format`.
 - Lint your code with `npm run lint`.

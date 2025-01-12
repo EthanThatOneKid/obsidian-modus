@@ -1,1 +1,1 @@
-export * from "./quotes";
+export * from "./obsidian";

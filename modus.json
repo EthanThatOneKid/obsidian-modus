@@ -11,6 +11,18 @@
     "zenquotes": {
       "type": "http",
       "baseUrl": "https://zenquotes.io/"
+    },
+    "dgraph": {
+      "type": "dgraph",
+      "grpcTarget": "throbbing-field-480038.grpc.us-west-2.aws.cloud.dgraph.io:443",
+      "key": "YjFlMDY0MzI1YWM3MzRmM2Y1YjU5NjQ1NTBhNjYxOWQ="
+    }
+  },
+  "models": {
+    "text-generator": {
+      "sourceModel": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "provider": "hugging-face",
+      "connection": "hypermode"
     }
   }
 }
