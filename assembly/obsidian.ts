@@ -1,46 +1,6 @@
 import { dgraph } from "@hypermode/modus-sdk-as";
 import { JSON } from "json-as";
-
-
-@json
-class File {
-  constructor(
-    uid: string = "",
-    path: string = "",
-    fileName: string = "",
-    fileExtension: string = "",
-    modifiedAt: string = "",
-    createdAt: string = "",
-    fileContent: string = "",
-    dType: string[] = [],
-  ) {
-    this.uid = uid;
-    this.path = path;
-    this.fileName = fileName;
-    this.fileExtension = fileExtension;
-    this.modifiedAt = modifiedAt;
-    this.createdAt = createdAt;
-    this.fileContent = fileContent;
-    this.dType = dType;
-  }
-  uid: string = "";
-  path: string = "";
-  fileName: string = "";
-  fileExtension: string = "";
-  modifiedAt: string = "";
-  createdAt: string = "";
-  fileContent: string = "";
-
-
-  @alias("dgraph.type")
-  dType: string[] = [];
-}
-
-
-@json
-class FileData {
-  files!: File[];
-}
+import { File, FileData } from "./file";
 
 // This host name should match one defined in the modus.json manifest file.
 const hostName: string = "dgraph";
@@ -130,7 +90,7 @@ export function querySpecificFile(path: string, fileName: string): File | null {
   return files[0];
 }
 
-export function addFileAsJSON(
+export function addFile(
   path: string,
   fileName: string,
   fileExtension: string,
@@ -139,6 +99,7 @@ export function addFileAsJSON(
   fileContent: string,
 ): Map<string, string> | null {
   const file = new File(
+    // TODO: Generate a unique ID for the file.
     "_:file1",
     path,
     fileName,
@@ -152,6 +113,17 @@ export function addFileAsJSON(
   const mutation = JSON.stringify(file);
 
   const mutations: dgraph.Mutation[] = [new dgraph.Mutation(mutation)];
+
+  return dgraph.execute(hostName, new dgraph.Request(null, mutations)).Uids;
+}
+
+export function addFiles(files: File[]): Map<string, string> | null {
+  const mutations: dgraph.Mutation[] = files.map(
+    (file: File): dgraph.Mutation => {
+      const mutation = JSON.stringify(file);
+      return new dgraph.Mutation(mutation);
+    },
+  );
 
   return dgraph.execute(hostName, new dgraph.Request(null, mutations)).Uids;
 }
